@@ -21,6 +21,7 @@ const fileUpload = require("express-fileupload");
 const fs = require("fs");
 const adminRoute = require('./routes/adminRoute')
 const Comment = require("./models/commentModel");
+const path = require("path");
 
 
 const app = express();
@@ -34,8 +35,7 @@ app.use(express.json());
 app.use(fileUpload());
 // enable CORS - API calls and resource sharing
 app.use(cors());
-// nodmailer config
-// const mailer = mainService.configureMail();
+app.use(express.static(path.join(__dirname + "public")))
 
 app.use("/api/subscribe", subscribeRoute);
 app.use("/api/user", userRoute);
@@ -453,8 +453,8 @@ app.put('/shop/product/reset', (req, res) => {
 //         res.send('uspesno')
 //     })
 // })
-
-app.listen(serverConfig.port, (err) => {
+const port = process.env.PORT || 4000
+app.listen(port, (err) => {
     if (err) {
         console.log(err);
     } else {
